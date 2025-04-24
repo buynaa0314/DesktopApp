@@ -24,9 +24,10 @@ def gen():
         results = model.predict(source=frame, conf=0.4, classes=[2])
 
         for r in results:
-            for box in r.boxes:
-                x1, y1, x2, y2 = map(int, box.xyxy[0])
-                cv2.rectangle(frame, (x1, y1), (x2, y2), (255, 255, 0), 2)
+            if r.boxes is not None:
+                for box in r.boxes:
+                    x1, y1, x2, y2 = map(int, box.xyxy[0])
+                    cv2.rectangle(frame, (x1, y1), (x2, y2), (255, 255, 0), 2)
 
         _, jpeg = cv2.imencode('.jpg', frame)
         frame = jpeg.tobytes()
